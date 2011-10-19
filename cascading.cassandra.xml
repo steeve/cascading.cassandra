@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="cascading.cassandra" default="all">
+  
+  
+  <property file="cascading.cassandra.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="128m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/.pyc/**"/>
+    <exclude name="**/.pyo/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/*.lib/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/.bundle/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.zip"/>
+    <include name="*.war"/>
+    <include name="*.egg"/>
+    <include name="*.ear"/>
+    <include name="*.swc"/>
+    <include name="*.jar"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <include name="**/?*.properties"/>
+    <include name="**/?*.xml"/>
+    <include name="**/?*.gif"/>
+    <include name="**/?*.png"/>
+    <include name="**/?*.jpeg"/>
+    <include name="**/?*.jpg"/>
+    <include name="**/?*.html"/>
+    <include name="**/?*.dtd"/>
+    <include name="**/?*.tld"/>
+    <include name="**/?*.ftl"/>
+  </patternset>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.cascading.classpath">
+    <fileset dir="${basedir}/../cascading-1.2.4-hadoop-0.19.2+">
+      <patternset refid="library.patterns"/>
+    </fileset>
+    <fileset dir="${basedir}/../cascading-1.2.4-hadoop-0.19.2+/lib">
+      <patternset refid="library.patterns"/>
+    </fileset>
+    <fileset dir="${basedir}/../cascading-1.2.4-hadoop-0.19.2+/lib/xml">
+      <patternset refid="library.patterns"/>
+    </fileset>
+  </path>
+  
+  <path id="library.cassandra.classpath">
+    <fileset dir="${basedir}/../bionext/brisk/resources/cassandra/lib">
+      <patternset refid="library.patterns"/>
+    </fileset>
+  </path>
+  
+  <path id="library.hadoop.classpath">
+    <fileset dir="${basedir}/../bionext/brisk/resources/hadoop">
+      <patternset refid="library.patterns"/>
+    </fileset>
+    <fileset dir="${basedir}/../bionext/brisk/resources/hadoop/lib">
+      <patternset refid="library.patterns"/>
+    </fileset>
+  </path>
+  
+  
+  <!-- Global Libraries -->
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module cascading.cassandra -->
+  
+  <dirname property="module.cascading.cassandra.basedir" file="${ant.file}"/>
+  
+  
+  
+  <property name="compiler.args.cascading.cassandra" value="${compiler.args}"/>
+  
+  <property name="cascading.cassandra.output.dir" value="${module.cascading.cassandra.basedir}/out/production/cascading.cassandra"/>
+  <property name="cascading.cassandra.testoutput.dir" value="${module.cascading.cassandra.basedir}/out/test/cascading.cassandra"/>
+  
+  <path id="cascading.cassandra.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="cascading.cassandra.module.production.classpath">
+    <path refid="library.hadoop.classpath"/>
+    <path refid="library.cassandra.classpath"/>
+    <path refid="library.cascading.classpath"/>
+  </path>
+  
+  <path id="cascading.cassandra.runtime.production.module.classpath">
+    <pathelement location="${cascading.cassandra.output.dir}"/>
+    <path refid="library.hadoop.classpath"/>
+    <path refid="library.cassandra.classpath"/>
+    <path refid="library.cascading.classpath"/>
+  </path>
+  
+  <path id="cascading.cassandra.module.classpath">
+    <pathelement location="${cascading.cassandra.output.dir}"/>
+    <path refid="library.hadoop.classpath"/>
+    <path refid="library.cassandra.classpath"/>
+    <path refid="library.cascading.classpath"/>
+  </path>
+  
+  <path id="cascading.cassandra.runtime.module.classpath">
+    <pathelement location="${cascading.cassandra.testoutput.dir}"/>
+    <pathelement location="${cascading.cassandra.output.dir}"/>
+    <path refid="library.hadoop.classpath"/>
+    <path refid="library.cassandra.classpath"/>
+    <path refid="library.cascading.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.cascading.cassandra">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.cascading.cassandra">
+    <patternset refid="excluded.from.module.cascading.cassandra"/>
+  </patternset>
+  
+  <path id="cascading.cassandra.module.sourcepath">
+    <dirset dir="${module.cascading.cassandra.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.cascading.cassandra" depends="compile.module.cascading.cassandra.production,compile.module.cascading.cassandra.tests" description="Compile module cascading.cassandra"/>
+  
+  <target name="compile.module.cascading.cassandra.production" description="Compile module cascading.cassandra; production classes">
+    <mkdir dir="${cascading.cassandra.output.dir}"/>
+    <javac destdir="${cascading.cassandra.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+      <compilerarg line="${compiler.args.cascading.cassandra}"/>
+      <bootclasspath refid="cascading.cassandra.module.bootclasspath"/>
+      <classpath refid="cascading.cassandra.module.production.classpath"/>
+      <src refid="cascading.cassandra.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.cascading.cassandra"/>
+    </javac>
+    
+    <copy todir="${cascading.cassandra.output.dir}">
+      <fileset dir="${module.cascading.cassandra.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.cascading.cassandra.tests" depends="compile.module.cascading.cassandra.production" description="compile module cascading.cassandra; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.cascading.cassandra" description="cleanup module">
+    <delete dir="${cascading.cassandra.output.dir}"/>
+    <delete dir="${cascading.cassandra.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.cascading.cassandra" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.cascading.cassandra" description="build all modules"/>
+  
+  <target name="init.artifacts">
+    <property name="artifacts.temp.dir" value="${basedir}/__artifacts_temp"/>
+    <property name="artifact.output.unnamed" value="${basedir}/out/artifacts/unnamed"/>
+    <mkdir dir="${artifacts.temp.dir}"/>
+    <property name="temp.jar.path.unnamed.jar" value="${artifacts.temp.dir}/unnamed.jar"/>
+  </target>
+  
+  <target name="artifact.unnamed" depends="init.artifacts, compile.module.cascading.cassandra" description="Build &apos;unnamed&apos; artifact">
+    <property name="artifact.temp.output.unnamed" value="${artifacts.temp.dir}/unnamed"/>
+    <mkdir dir="${artifact.temp.output.unnamed}"/>
+    <jar destfile="${temp.jar.path.unnamed.jar}" duplicate="preserve" filesetmanifest="mergewithoutmain">
+      <zipfileset dir="${cascading.cassandra.output.dir}"/>
+      <zipfileset file="${basedir}/../cascading-1.2.4-hadoop-0.19.2+/cascading-1.2.4.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../cascading-1.2.4-hadoop-0.19.2+/cascading-core-1.2.4.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../cascading-1.2.4-hadoop-0.19.2+/cascading-test-1.2.4.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../cascading-1.2.4-hadoop-0.19.2+/cascading-xml-1.2.4.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../cascading-1.2.4-hadoop-0.19.2+/lib/janino-2.5.16.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../cascading-1.2.4-hadoop-0.19.2+/lib/jgrapht-jdk1.6-0.8.1.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../cascading-1.2.4-hadoop-0.19.2+/lib/riffle-0.1-dev.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../cascading-1.2.4-hadoop-0.19.2+/lib/xml/tagsoup-1.2.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/antlr-2.7.7.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/antlr-3.2.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/antlr-runtime-3.2.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/avro-1.4.0-cassandra-1.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/commons-cli-1.1.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/commons-codec-1.2.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/commons-lang-2.4.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/commons-logging-1.1.1.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/guava-r08.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/high-scale-lib-1.1.2.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/httpclient-4.0.1.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/httpcore-4.0.1.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/jackson-core-asl-1.4.0.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/jackson-mapper-asl-1.4.0.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/jetty-6.1.22.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/jetty-util-6.1.22.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/jline-0.9.94.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/joda-time-1.6.2.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/json-simple-1.1.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/junit-4.4.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/libthrift-0.6.1.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/log4j-1.2.16.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/servlet-api-2.5-20081211.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/servlet-api-2.5.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/slf4j-api-1.6.1.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/slf4j-log4j12-1.6.1.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/snakeyaml-1.6.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/snappy-java-1.0.3-20110706.054609-7.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/stringtemplate-3.2.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/jamm-0.2.5.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/concurrentlinkedhashmap-lru-1.2.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/compress-lzf-0.8.4.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/cassandra-thrift-1.0.0.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/cassandra-all-1.0.0.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/jna.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/cassandra/lib/platform.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/hadoop-core-0.20.203.1-brisk1-beta2.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/hadoop-examples-0.20.203.1-brisk1-beta2.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/hadoop-fairscheduler-0.20.203.1-brisk1.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/hadoop-streaming-0.20.203.1-brisk1-beta2.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/hadoop-test-0.20.203.1-brisk1-beta2.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/hadoop-tools-0.20.203.1-brisk1-beta2.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/ant-1.6.5.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/commons-beanutils-1.7.0.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/commons-beanutils-core-1.8.0.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/commons-cli-1.2.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/commons-codec-1.4.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/commons-collections-3.2.1.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/commons-configuration-1.6.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/commons-digester-1.8.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/commons-el-1.0.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/commons-httpclient-3.0.1.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/commons-lang-2.4.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/commons-logging-1.0.4.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/commons-math-2.1.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/commons-net-1.4.1.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/core-3.1.1.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/ftplet-api-1.0.0.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/ftpserver-core-1.0.0.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/ftpserver-deprecated-1.0.0-M2.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/hsqldb-1.8.0.10.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/jasper-compiler-5.5.12.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/jasper-runtime-5.5.12.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/jets3t-0.7.1.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/jetty-6.1.26.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/jetty-util-6.1.26.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/jsp-2.1-6.1.14.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/jsp-api-2.1-6.1.14.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/junit-3.8.1.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/kfs-0.3.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/mina-core-2.0.0-M5.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/oro-2.0.8.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/servlet-api-2.5-20081211.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/servlet-api-2.5-6.1.14.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/../bionext/brisk/resources/hadoop/lib/xmlenc-0.52.jar" prefix="lib"/>
+      <zipfileset file="${basedir}/META-INF/MANIFEST.MF" prefix="META-INF"/>
+    </jar>
+    <copy file="${temp.jar.path.unnamed.jar}" tofile="${artifact.temp.output.unnamed}/unnamed.jar"/>
+  </target>
+  
+  <target name="build.all.artifacts" depends="artifact.unnamed" description="Build all artifacts">
+    <mkdir dir="${artifact.output.unnamed}"/>
+    <copy todir="${artifact.output.unnamed}">
+      <fileset dir="${artifact.temp.output.unnamed}"/>
+    </copy>
+    
+    <!-- Delete temporary files -->
+    <delete dir="${artifacts.temp.dir}"/>
+  </target>
+  
+  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
+</project>
